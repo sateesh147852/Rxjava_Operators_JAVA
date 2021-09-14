@@ -1,0 +1,2 @@
+rootProject.name = "Rxjava_Operators_JAVA"
+include ':app'
