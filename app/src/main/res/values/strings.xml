@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Rxjava_Operators_JAVA</string>
+    <string name="subscribe">SUBSCRIBE</string>
 </resources>
