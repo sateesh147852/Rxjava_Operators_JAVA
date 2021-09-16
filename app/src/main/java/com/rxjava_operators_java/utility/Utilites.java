@@ -5,7 +5,7 @@ import com.rxjava_operators_java.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
-class Utilites {
+public class Utilites {
 
 
     public static String[] getStringArray(){
