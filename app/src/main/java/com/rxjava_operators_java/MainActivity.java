@@ -6,6 +6,8 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.rxjava_operators_java.databinding.ActivityMainBinding;
+import com.rxjava_operators_java.model.User;
+import com.rxjava_operators_java.utility.Utilites;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -29,9 +31,47 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         binding.btSubscribe.setOnClickListener(v -> {
-            createObservable();
+            //createObservable();
+            createUserObservable();
         });
 
+    }
+
+    private void createUserObservable() {
+        
+        Observable.fromIterable(Utilites.getUsers())
+                .subscribeOn(Schedulers.io())
+                .filter(new Predicate<User>() {
+                    @Override
+                    public boolean test( User user) throws Exception {
+                        Thread.sleep(1000);
+                        return user.getName().toLowerCase().startsWith("s");
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<User>() {
+                    @Override
+                    public void onSubscribe( Disposable d) {
+                        disposable = d;
+                        Log.i(TAG, "onSubscribe: ");
+                    }
+
+                    @Override
+                    public void onNext( User user) {
+                        Log.i(TAG, "onNext: "+user.toString());
+                    }
+
+                    @Override
+                    public void onError( Throwable e) {
+                        Log.i(TAG, "onError: "+e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.i(TAG, "onComplete: ");
+                    }
+                });
+        
     }
 
     private void createObservable() {
